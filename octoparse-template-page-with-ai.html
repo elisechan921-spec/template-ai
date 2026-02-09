@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoparse Template Library - AI Enhanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* ========== 页面头部 ========== */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0 40px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* ========== Hero Section ========== */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+
+        /* ========== 搜索栏 ========== */
+        .search-section {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-wrapper {
+            background: white;
+            border-radius: 50px;
+            padding: 8px 8px 8px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+
+        .search-icon {
+            font-size: 20px;
+            color: #999;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 12px 0;
+            color: #333;
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        .search-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-btn.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .search-btn.primary:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+
+        .search-btn.ai {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-btn.ai::before {
+            content: "✨";
+            margin-right: 6px;
+        }
+
+        .search-btn.ai:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+        }
+
+        .search-btn.ai::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .search-btn.ai:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .ai-badge {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-top: 16px;
+            font-weight: 600;
+        }
+
+        /* ========== 内容区域 ========== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 40px 100px 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            background: white;
+            padding: 6px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tab:hover {
+            background: #f8f9fa;
+        }
+
+        .filter-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* ========== 模板网格 ========== */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .template-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .template-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+        }
+
+        .template-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.95);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .template-content {
+            padding: 20px;
+        }
+
+        .template-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .template-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .template-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid #f1f3f5;
+        }
+
+        .template-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .template-price {
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        /* ========== 右下角AI助手按钮 ========== */
+        .ai-assistant-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(245, 158, 11, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            transition: all 0.3s ease;
+            z-index: 999;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 4px 24px rgba(245, 158, 11, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 32px rgba(245, 158, 11, 0.6);
+            }
+        }
+
+        .ai-assistant-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 32px rgba(245, 158, 11, 0.5);
+        }
+
+        .ai-assistant-fab .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        /* ========== AI聊天面板 ========== */
+        .ai-chat-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 440px;
+            height: 650px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 48px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .ai-chat-panel.active {
+            transform: scale(1);
+        }
+
+        .ai-chat-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .ai-chat-title h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .ai-chat-subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .close-ai-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .close-ai-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .ai-message {
+            margin-bottom: 16px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ai-message.assistant {
+            display: flex;
+            gap: 12px;
+        }
+
+        .ai-message.user {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 320px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .ai-message.assistant .message-bubble {
+            background: white;
+            color: #333;
+            border: 1px solid #e9ecef;
+        }
+
+        .ai-message.user .message-bubble {
+            background: #667eea;
+            color: white;
+        }
+
+        /* ========== 模板推荐卡片 ========== */
+        .template-recommendation {
+            background: white;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+            max-width: 100%;
+        }
+
+        .template-rec-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .template-rec-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .template-rec-item:hover {
+            background: #fff8e1;
+            transform: translateX(4px);
+        }
+
+        .template-rec-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .template-rec-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .template-rec-desc {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .template-rec-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .template-rec-stats {
+            color: #999;
+        }
+
+        .template-rec-price {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .template-action-btn {
+            width: 100%;
+            padding: 10px;
+            background: #f59e0b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.2s;
+        }
+
+        .template-action-btn:hover {
+            background: #d97706;
+        }
+
+        /* ========== Quick Reply Buttons ========== */
+        .quick-replies {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .quick-reply-btn {
+            background: white;
+            border: 2px solid #f59e0b;
+            color: #f59e0b;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            text-align: left;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .quick-reply-btn:hover {
+            background: #f59e0b;
+            color: white;
+        }
+
+        /* ========== AI输入框 ========== */
+        .ai-chat-input {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .ai-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 24px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .ai-input:focus {
+            border-color: #f59e0b;
+        }
+
+        .ai-send-btn {
+            width: 40px;
+            height: 40px;
+            background: #f59e0b;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 18px;
+        }
+
+        .ai-send-btn:hover {
+            background: #d97706;
+            transform: scale(1.05);
+        }
+
+        .ai-send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        /* ========== Typing Indicator ========== */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 12px;
+            width: fit-content;
+            border: 1px solid #e9ecef;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 1024px) {
+            .ai-chat-panel {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-btn {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+
+            .ai-assistant-fab {
+                bottom: 20px;
+                right: 20px;
+                width: 56px;
+                height: 56px;
+            }
+        }
+
+        /* ========== 滚动条美化 ========== */
+        .ai-chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .ai-chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .ai-chat-messages::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        .ai-chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <div class="header">
+        <div class="logo">
+            🐙 Octoparse
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item">Products</a>
+            <a href="#" class="nav-item active">Templates</a>
+            <a href="#" class="nav-item">Pricing</a>
+            <a href="#" class="nav-item">Resources</a>
+            <a href="#" class="nav-item">Sign In</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>1500+ Ready-to-Use Templates</h1>
+        <p>Extract data from any website without coding</p>
+        
+        <div class="search-section">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput"
+                    placeholder="Search templates (e.g., Google Maps, Amazon, LinkedIn...)"
+                />
+                <div class="search-buttons">
+                    <button class="search-btn primary" onclick="normalSearch()">Search</button>
+                    <button class="search-btn ai" onclick="aiSearch()">AI Search</button>
+                </div>
+            </div>
+            <div class="ai-badge">
+                ✨ Try AI Search - Describe what you need, we'll find the perfect template
+            </div>
+        </div>
+    </div>
+
+    <!-- 模板内容区 -->
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Popular Templates</h2>
+            <div class="filter-tabs">
+                <button class="filter-tab active">All</button>
+                <button class="filter-tab">E-commerce</button>
+                <button class="filter-tab">Social Media</button>
+                <button class="filter-tab">Maps</button>
+                <button class="filter-tab">News</button>
+            </div>
+        </div>
+
+        <div class="template-grid" id="templateGrid">
+            <!-- Google Maps 模板 -->
+            <div class="template-card">
+                <div class="template-image">
+                    🗺️
+                    <span class="template-badge">Popular</span>
+                </div>
+                <div class="template-content">
+                    <h3 class="template-title">Google Maps Email Finder</h3>
+                    <p class="template-description">Extract business emails, phones, websites, and social media from Google Maps listings</p>
+                    <div class="template-meta">
+                        <div class="template-stats">
+                            <span class="stat-item">❤️ 205</span>
+                            <span class="stat-item">☁️ Cloud</span>
+                        </div>
+                        <span class="template-price">$0.0005/row</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amazon 模板 -->
+            <div class="template-card">
+                <div class="template-image" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a00 100%);">
+                    🛒
+                    <span class="template-badge">Hot</span>
+                </div>
+                <div class="template-content">
+                    <h3 class="template-title">Amazon Product Scraper</h3>
+                    <p class="template-description">Scrape product details, prices, ratings, and reviews from Amazon search results</p>
+                    <div class="template-meta">
+                        <div class="template-stats">
+                            <span class="stat-item">❤️ 342</span>
+                            <span class="stat-item">☁️ Cloud</span>
+                        </div>
+                        <span class="template-price">$0.0003/row</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LinkedIn 模板 -->
+            <div class="template-card">
+                <div class="template-image" style="background: linear-gradient(135deg, #0077b5 0%, #005885 100%);">
+                    💼
+                </div>
+                <div class="template-content">
+                    <h3 class="template-title">LinkedIn People Search</h3>
+                    <p class="template-description">Extract LinkedIn profiles including names, titles, companies, and locations</p>
+                    <div class="template-meta">
+                        <div class="template-stats">
+                            <span class="stat-item">❤️ 189</span>
+                            <span class="stat-item">💻 Local</span>
+                        </div>
+                        <span class="template-price">Free</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Twitter 模板 -->
+            <div class="template-card">
+                <div class="template-image" style="background: linear-gradient(135deg, #1da1f2 0%, #0d8bd9 100%);">
+                    🐦
+                </div>
+                <div class="template-content">
+                    <h3 class="template-title">Twitter/X Data Collector</h3>
+                    <p class="template-description">Collect tweets, user profiles, hashtags, and engagement metrics</p>
+                    <div class="template-meta">
+                        <div class="template-stats">
+                            <span class="stat-item">❤️ 156</span>
+                            <span class="stat-item">☁️ Cloud</span>
+                        </div>
+                        <span class="template-price">$0.0002/row</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instagram 模板 -->
+            <div class="template-card">
+                <div class="template-image" style="background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+                    📷
+                    <span class="template-badge">New</span>
+                </div>
+                <div class="template-content">
+                    <h3 class="template-title">Instagram Post Scraper</h3>
+                    <p class="template-description">Extract Instagram posts, captions, hashtags, likes, and comments</p>
+                    <div class="template-meta">
+                        <div class="template-stats">
+                            <span class="stat-item">❤️ 223</span>
+                            <span class="stat-item">💻 Local</span>
+                        </div>
+                        <span class="template-price">Free</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google News 模板 -->
+            <div class="template-card">
+                <div class="template-image" style="background: linear-gradient(135deg, #4285f4 0%, #3367d6 100%);">
+                    📰
+                </div>
+                <div class="template-content">
+                    <h3 class="template-title">Google News Scraper</h3>
+                    <p class="template-description">Extract news titles, publish dates, and content from Google News by keywords</p>
+                    <div class="template-meta">
+                        <div class="template-stats">
+                            <span class="stat-item">❤️ 85</span>
+                            <span class="stat-item">☁️ Cloud</span>
+                        </div>
+                        <span class="template-price">Free</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右下角AI助手按钮 -->
+    <button class="ai-assistant-fab" id="aiFab">
+        ✨
+        <span class="badge" id="aiBadge" style="display: none;">1</span>
+    </button>
+
+    <!-- AI聊天面板 -->
+    <div class="ai-chat-panel" id="aiChatPanel">
+        <div class="ai-chat-header">
+            <div class="ai-chat-header-left">
+                <div class="ai-avatar">✨</div>
+                <div class="ai-chat-title">
+                    <h3>AI Template Assistant</h3>
+                    <div class="ai-chat-subtitle">Find the perfect template instantly</div>
+                </div>
+            </div>
+            <button class="close-ai-btn" id="closeAiBtn">×</button>
+        </div>
+
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+
+        <div class="ai-chat-input">
+            <div class="ai-input-wrapper">
+                <input 
+                    type="text" 
+                    class="ai-input" 
+                    id="aiInput"
+                    placeholder="Describe what you need..."
+                    disabled
+                />
+                <button class="ai-send-btn" id="aiSendBtn" disabled>
+                    ➤
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 状态管理 ==========
+        let aiPanelOpen = false;
+        let conversationStarted = false;
+
+        // ========== DOM 元素 ==========
+        const aiFab = document.getElementById('aiFab');
+        const aiChatPanel = document.getElementById('aiChatPanel');
+        const aiChatMessages = document.getElementById('aiChatMessages');
+        const aiInput = document.getElementById('aiInput');
+        const aiSendBtn = document.getElementById('aiSendBtn');
+        const closeAiBtn = document.getElementById('closeAiBtn');
+        const searchInput = document.getElementById('searchInput');
+        const aiBadge = document.getElementById('aiBadge');
+
+        // ========== 工具函数 ==========
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function addAiMessage(role, content, options = {}) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message ${role}`;
+            
+            if (role === 'assistant') {
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">✨</div>
+                    <div>
+                        <div class="message-bubble">${content}</div>
+                        ${options.templates ? createTemplateRecommendation(options.templates) : ''}
+                        ${options.quickReplies ? createQuickReplies(options.quickReplies) : ''}
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="message-bubble">${content}</div>
+                `;
+            }
+            
+            aiChatMessages.appendChild(messageDiv);
+            aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+        }
+
+        function createTemplateRecommendation(templates) {
+            return `
+                <div class="template-recommendation">
+                    <div class="template-rec-header">
+                        🎯 找到 ${templates.length} 个匹配的模板
+                    </div>
+                    ${templates.map(t => `
+                        <div class="template-rec-item" onclick="selectTemplate(${t.id})">
+                            <div class="template-rec-name">${t.name}</div>
+                            <div class="template-rec-desc">${t.description}</div>
+                            <div class="template-rec-meta">
+                                <span class="template-rec-stats">❤️ ${t.likes} • ${t.runMode}</span>
+                                <span class="template-rec-price">${t.price}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                    <button class="template-action-btn" onclick="createTaskFromTemplate()">
+                        创建采集任务 →
+                    </button>
+                </div>
+            `;
+        }
+
+        function createQuickReplies(replies) {
+            return `
+                <div class="quick-replies">
+                    ${replies.map(reply => `
+                        <button class="quick-reply-btn" onclick="handleQuickReply('${reply}')">${reply}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'ai-message assistant';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">✨</div>
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            aiChatMessages.appendChild(typingDiv);
+            aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) typing.remove();
+        }
+
+        // ========== AI助手交互 ==========
+        async function openAiPanel() {
+            aiPanelOpen = true;
+            aiChatPanel.classList.add('active');
+            aiBadge.style.display = 'none';
+            
+            if (!conversationStarted) {
+                conversationStarted = true;
+                await startAiConversation();
+            }
+        }
+
+        function closeAiPanel() {
+            aiPanelOpen = false;
+            aiChatPanel.classList.remove('active');
+        }
+
+        async function startAiConversation() {
+            await delay(500);
+            addAiMessage('assistant', '👋 你好!我是 AI 模板助手<br>告诉我你想采集什么数据,我会帮你找到最合适的模板!', {
+                quickReplies: [
+                    '🗺️ Google Maps 商家信息',
+                    '🛒 电商平台商品数据',
+                    '📱 社交媒体内容',
+                    '📰 新闻文章'
+                ]
+            });
+            
+            aiInput.disabled = false;
+            aiSendBtn.disabled = false;
+        }
+
+        async function aiSearch() {
+            const query = searchInput.value.trim();
+            
+            openAiPanel();
+            
+            if (query) {
+                await delay(300);
+                addAiMessage('user', query);
+                await processAiQuery(query);
+            }
+        }
+
+        async function processAiQuery(query) {
+            showTyping();
+            await delay(1500);
+            hideTyping();
+            
+            // 模拟AI理解和模板匹配
+            const lowerQuery = query.toLowerCase();
+            
+            if (lowerQuery.includes('google') || lowerQuery.includes('maps') || lowerQuery.includes('地图') || lowerQuery.includes('商家')) {
+                addAiMessage('assistant', '我为你找到了 Google Maps 相关的模板:', {
+                    templates: [
+                        {
+                            id: 1576,
+                            name: 'Google Maps Email Finder',
+                            description: '提取商家邮箱、电话、网站、社交媒体',
+                            likes: 205,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0005/条'
+                        },
+                        {
+                            id: 2084,
+                            name: 'Google Maps Leads Scraper',
+                            description: '采集商家名称、地址、评分等基础信息',
+                            likes: 71,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0002/条'
+                        },
+                        {
+                            id: 1859,
+                            name: 'Google Maps Listing Scraper',
+                            description: '免费采集地点列表和详情数据',
+                            likes: 96,
+                            runMode: '☁️ Cloud',
+                            price: 'Free'
+                        }
+                    ]
+                });
+            } else if (lowerQuery.includes('amazon') || lowerQuery.includes('亚马逊') || lowerQuery.includes('电商')) {
+                addAiMessage('assistant', '我为你找到了电商相关的模板:', {
+                    templates: [
+                        {
+                            id: 100,
+                            name: 'Amazon Product Scraper',
+                            description: '采集商品详情、价格、评分、评论',
+                            likes: 342,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0003/条'
+                        },
+                        {
+                            id: 101,
+                            name: 'Amazon Price Monitor',
+                            description: '监控商品价格变化,支持定时采集',
+                            likes: 198,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0002/条'
+                        }
+                    ]
+                });
+            } else if (lowerQuery.includes('咖啡') || lowerQuery.includes('coffee')) {
+                addAiMessage('assistant', '看起来你想采集咖啡店数据!<br>我推荐使用 Google Maps 模板:', {
+                    templates: [
+                        {
+                            id: 1576,
+                            name: 'Google Maps Email Finder',
+                            description: '最适合采集咖啡店的联系方式和社交媒体',
+                            likes: 205,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0005/条'
+                        }
+                    ]
+                });
+            } else {
+                addAiMessage('assistant', '让我帮你找合适的模板。你想采集哪种类型的数据?', {
+                    quickReplies: [
+                        '🗺️ 地图/商家信息',
+                        '🛒 电商商品数据',
+                        '📱 社交媒体',
+                        '📰 新闻/文章'
+                    ]
+                });
+            }
+        }
+
+        async function handleQuickReply(reply) {
+            addAiMessage('user', reply);
+            
+            showTyping();
+            await delay(1200);
+            hideTyping();
+            
+            if (reply.includes('Google Maps') || reply.includes('地图')) {
+                addAiMessage('assistant', '太好了!Google Maps 是最受欢迎的数据源之一。<br>这些模板可以帮你:', {
+                    templates: [
+                        {
+                            id: 1576,
+                            name: 'Google Maps Email Finder',
+                            description: '提取商家邮箱、电话、网站、社交媒体',
+                            likes: 205,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0005/条'
+                        },
+                        {
+                            id: 2084,
+                            name: 'Google Maps Leads Scraper',
+                            description: '采集商家名称、地址、评分等基础信息',
+                            likes: 71,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0002/条'
+                        }
+                    ]
+                });
+            } else if (reply.includes('电商')) {
+                addAiMessage('assistant', '电商数据采集可以帮你进行价格监控、竞品分析!', {
+                    templates: [
+                        {
+                            id: 100,
+                            name: 'Amazon Product Scraper',
+                            description: '采集商品详情、价格、评分、评论',
+                            likes: 342,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0003/条'
+                        }
+                    ]
+                });
+            } else if (reply.includes('社交')) {
+                addAiMessage('assistant', '社交媒体数据对营销分析很有价值!', {
+                    templates: [
+                        {
+                            id: 200,
+                            name: 'Instagram Post Scraper',
+                            description: '采集帖子、标签、点赞、评论',
+                            likes: 223,
+                            runMode: '💻 Local',
+                            price: 'Free'
+                        },
+                        {
+                            id: 201,
+                            name: 'Twitter/X Data Collector',
+                            description: '采集推文、用户资料、互动数据',
+                            likes: 156,
+                            runMode: '☁️ Cloud',
+                            price: '$0.0002/条'
+                        }
+                    ]
+                });
+            } else if (reply.includes('新闻')) {
+                addAiMessage('assistant', '新闻数据采集可用于舆情监控、内容分析!', {
+                    templates: [
+                        {
+                            id: 1370,
+                            name: 'Google News Scraper',
+                            description: '采集新闻标题、发布日期、正文内容',
+                            likes: 85,
+                            runMode: '☁️ Cloud',
+                            price: 'Free'
+                        }
+                    ]
+                });
+            }
+        }
+
+        function selectTemplate(templateId) {
+            addAiMessage('user', `选择模板 #${templateId}`);
+            
+            setTimeout(() => {
+                addAiMessage('assistant', '✅ 已选择此模板!<br>点击下方按钮创建采集任务,或告诉我具体需求(如地区、关键词)');
+            }, 500);
+        }
+
+        function createTaskFromTemplate() {
+            addAiMessage('user', '创建采集任务');
+            
+            setTimeout(() => {
+                addAiMessage('assistant', '好的!请告诉我:<br>• 想采集哪个城市/地区的数据?<br>• 搜索关键词是什么?(例如: 咖啡店)', {
+                    quickReplies: [
+                        '纽约 New York',
+                        '洛杉矶 Los Angeles',
+                        '旧金山 San Francisco',
+                        '其他城市'
+                    ]
+                });
+            }, 800);
+        }
+
+        function normalSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                alert(`常规搜索: "${query}"\n\n在实际产品中,这里会刷新页面显示搜索结果`);
+            }
+        }
+
+        // ========== 事件监听 ==========
+        aiFab.addEventListener('click', openAiPanel);
+        closeAiBtn.addEventListener('click', closeAiPanel);
+
+        aiInput.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter' && aiInput.value.trim()) {
+                const message = aiInput.value.trim();
+                addAiMessage('user', message);
+                aiInput.value = '';
+                
+                showTyping();
+                await delay(1000);
+                hideTyping();
+                
+                await processAiQuery(message);
+            }
+        });
+
+        aiSendBtn.addEventListener('click', async () => {
+            if (aiInput.value.trim()) {
+                const message = aiInput.value.trim();
+                addAiMessage('user', message);
+                aiInput.value = '';
+                
+                showTyping();
+                await delay(1000);
+                hideTyping();
+                
+                await processAiQuery(message);
+            }
+        });
+
+        // 搜索框Enter键触发
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                normalSearch();
+            }
+        });
+
+        // 页面加载时显示提示徽章
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                aiBadge.style.display = 'flex';
+                aiFab.style.animation = 'pulse-glow 2s infinite, shake 0.5s';
+                
+                setTimeout(() => {
+                    aiFab.style.animation = 'pulse-glow 2s infinite';
+                }, 2000);
+            }, 2000);
+        });
+
+        // Shake animation for FAB
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
